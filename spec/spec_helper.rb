@@ -16,7 +16,7 @@ Spec::Runner.configure do |conf|
   
   def app
     Rack::Builder.app do
-      use Rack::I18nLocaleSwitcher
+      use Rack::I18nLocaleSwitcher, :available_locales => [:de, :en, :fr], :default_locale => :fr
       run Rack::Test::FakeApp.new
     end
   end

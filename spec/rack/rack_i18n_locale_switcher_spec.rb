@@ -43,4 +43,14 @@ describe Rack::I18nLocaleSwitcher do
     last_response.body.should =~ /I18n.locale: 'fr'/
   end
   
+  it "should use the HTTP_ACCEPT_LANGUAGE if possible : en" do
+    get '/locale', {}, 'HTTP_ACCEPT_LANGUAGE' => "en-us,en;q=0.5"
+    last_response.body.should =~ /I18n.locale: 'en'/
+  end
+  
+  it "should use :default_locale if the HTTP_ACCEPT_LANGUAGE is not possible : pt" do
+    get '/locale', {}, 'HTTP_ACCEPT_LANGUAGE' => "pt-pt,es;q=0.5"
+    last_response.body.should =~ /I18n.locale: 'fr'/
+  end
+  
 end

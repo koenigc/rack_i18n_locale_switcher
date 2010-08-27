@@ -34,17 +34,28 @@ The code for extraction the HTTP_ACCEPT_LANGUAGE is taken from the "Rack-Contrib
 
 
 
+h2. Dependency
+
+The following rubygem's should be present
+* i18n
+* rack
+* rack-builder
+* rack-test
+* rspec
+* sinatra
+
+
+
 h2. Installation
 
 copy @rack_i18n_locale_switcher.rb@ to @RAILS_ROOT/lib/rack/@
 
 insert this in @config/environment.rb@ inside the @Rails::Initializer.run do |config|@ block:
-<pre><code>
-require File.join(File.dirname(__FILE__), '../lib/rack/', 'rack_i18n_locale_switcher')
-config.middleware.use Rack::I18nLocaleSwitcher, :available_locales => [:your, :available, :locales], :default_locale => :en
-</code></pre>
+<pre><code>require File.join(File.dirname(__FILE__), '../lib/rack/', 'rack_i18n_locale_switcher')
+config.middleware.use Rack::I18nLocaleSwitcher, :available_locales => [:your, :available, :locales], :default_locale => :en</code></pre>
 
 Define the available locales inside the array. The locales should be set as symbols. Also define your preferred default locale.
+
 
 
 h2. Future
@@ -55,4 +66,24 @@ The next features that could be implement:
 * Rewrite all hyperlinks in the returned result of the rails app, so that _http://www.example.com/posts/123/comments?locale=de_ gets converted to _http://www.example.com/posts/123/comments/de_
 * create a gem
 * predict the default locale based on the users ip address
- 
+
+
+
+h2. Test
+
+To run the test's just execute @spec ./spec@
+
+I used a FakeApp to simulate this App as a middleware.This is done with the help of RackBuilder:
+
+<pre>Rack::Builder.app do
+  use Rack::I18nLocaleSwitcher
+  run Rack::Test::FakeApp.new
+end</pre>
+
+
+You can run the FakeApp directly:
+<pre>cd spec/fixtures
+rackup</pre>
+
+
+The next step is to extend the FakeApp. They should return the current I18n.locale.

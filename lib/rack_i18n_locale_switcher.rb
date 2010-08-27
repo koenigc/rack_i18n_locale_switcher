@@ -59,7 +59,7 @@ module Rack
     end
     
     def is_present? value
-      !(value.nil? || value.empty?)
+      !(value.nil? || value.to_s.empty?)
     end
     
   end

@@ -1,4 +1,4 @@
-h1. Rack-I18n
+h1. Rack-I18n-Locale-Switcher
 
 This rack-application is used to switch the I18n.locale (in a rails application as middleware).
 I developed this app during my "10 Minutes on Rails":http://devteam.sales-lentz.lu/10minutes.html talks at "Sales-Lentz::DevTeam":http://devteam.sales-lentz.lu/.

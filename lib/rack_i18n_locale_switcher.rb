@@ -46,7 +46,7 @@ module Rack
           l += ';q=1.0' unless l =~ /;q=\d+\.\d+$/
           l.split(';q=')
         }.first
-        lang.first.split("-").first
+        symbolize_locale(lang.first.split("-").first)
       end
     end
     

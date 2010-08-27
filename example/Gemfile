@@ -1,0 +1,9 @@
+source :gemcutter
+
+gem 'haml'
+gem 'rails', '2.3.8'
+gem 'sqlite3-ruby', '1.3.0', :require => 'sqlite3'
+
+group :development do
+  gem 'mongrel'
+end

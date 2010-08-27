@@ -1,0 +1,14 @@
+h1. Rack-I18n
+
+This example rails app includes the rack-i18n app as middleware to set the I18n.locale
+
+h2. Installation
+
+@gem install bundler@
+@bundle install@
+@rake db:migrate@
+
+h2. Testing 
+
+unfortunately no tests exists at the moment.
+For the rails app i should write some cucumber features and for the middleware i should learn how to test rack apps.

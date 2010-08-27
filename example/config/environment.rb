@@ -41,6 +41,6 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 
   require File.join(File.dirname(__FILE__), '../../lib/', 'rack_i18n_locale_switcher')
-  config.middleware.use Rack::I18nLocaleSwitcher, :available_locales => [:de, :en], :default_locale => :de
+  config.middleware.use Rack::I18nLocaleSwitcher, :available_locales => [:de, :en, :fr], :default_locale => :fr
   
 end

@@ -1,2 +1,2 @@
-In this example the @rack-i18n.rb@ is used from outside this rails app, so that allway the current development version is beeing used.
+In this example the @rack_i18n_locale_switcher@ is used from outside this rails app, so that allway the current development version is beeing used.
 If you create your own application, you should place the file in this directory.

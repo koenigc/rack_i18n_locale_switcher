@@ -3,19 +3,56 @@ h1. Rack-I18n-Locale-Switcher
 This rack-application is used to switch the I18n.locale (in a rails application as middleware).
 I developed this app during my "10 Minutes on Rails":http://devteam.sales-lentz.lu/10minutes.html talks at "Sales-Lentz::DevTeam":http://devteam.sales-lentz.lu/.
 
+
+
 h2. History
 
-The first basic functions which are implemented:
+
+h3. Basic functionality
 
 * Create a new "Rack::Request":http://rack.rubyforge.org/doc/classes/Rack/Request.html object an extract the params and the session.
 * store the @params["locale"]@ value in @session["locale"]@ if present
 * Set the "I18n.locale":http://guides.rubyonrails.org/i18n.html to whatever is stored inside @session["locale"]@ or, if not present, a defined default locale
 
 
+h3. Available locales and default locale
+
+The next step to make this app more modular was the configuration from the rails app which include this as a middleware.
+You can set an array with available locales and you can define a default locale.
+
+The locale get processed as followed:
+* *if a locale is given*
+** if it matched a available locale it will be stored in the session, otherwise the default locale is used.
+
+* *if no locale is given*
+** if a locale is stored in the session, it will be used.
+** if no locale is stored, and the first HTTP_ACCEPT_LANGUAGE matched a available locale it will be used.
+
+* in any other case the default locale will be used.
+
+The code for extraction the HTTP_ACCEPT_LANGUAGE is taken from the "Rack-Contrib Project":http://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/locale.rb
+
+
+
+h2. Installation
+
+copy @rack_i18n_locale_switcher.rb@ to @RAILS_ROOT/lib/rack/@
+
+insert this in @config/environment.rb@ inside the @Rails::Initializer.run do |config|@ block:
+<pre><code>
+require File.join(File.dirname(__FILE__), '../lib/rack/', 'rack_i18n_locale_switcher')
+config.middleware.use Rack::I18nLocaleSwitcher, :available_locales => [:your, :available, :locales], :default_locale => :en
+</code></pre>
+
+Define the available locales inside the array. The locales should be set as symbols. Also define your preferred default locale.
+
+
 h2. Future
 
-The next step's of implementation are:
+The next features that could be implement:
 
 * Instead of using a query string like @?locale=de@ it should be possible to set the locale inside the path. For example _http://www.example.com/de_, _http://www.example.com/posts/123/comments/de_
 * Rewrite all hyperlinks in the returned result of the rails app, so that _http://www.example.com/posts/123/comments?locale=de_ gets converted to _http://www.example.com/posts/123/comments/de_
+* create a gem
+* predict the default locale based on the users ip address
  

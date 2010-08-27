@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'I18n'
 require 'sinatra'
 
 
@@ -10,6 +11,19 @@ module Rack
       get '/test' do
         "FakeApp responds"
       end
+      
+      get '/locale' do
+        "I18n.locale: '#{I18n.locale}'"
+      end
+      
+      get '/home' do
+        "Home"
+      end
+
+      get '/imprint' do
+        "Imprint"
+      end
+      
     end
 
   end

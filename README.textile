@@ -1,0 +1,21 @@
+h1. Rack-I18n
+
+This rack-application is used to switch the I18n.locale (in a rails application as middleware).
+I developed this app during my "10 Minutes on Rails":http://devteam.sales-lentz.lu/10minutes.html talks at "Sales-Lentz::DevTeam":http://devteam.sales-lentz.lu/.
+
+h2. History
+
+The first basic functions which are implemented:
+
+* Create a new "Rack::Request":http://rack.rubyforge.org/doc/classes/Rack/Request.html object an extract the params and the session.
+* store the @params["locale"]@ value in @session["locale"]@ if present
+* Set the "I18n.locale":http://guides.rubyonrails.org/i18n.html to whatever is stored inside @session["locale"]@ or, if not present, a defined default locale
+
+
+h2. Future
+
+The next step's of implementation are:
+
+* Instead of using a query string like @?locale=de@ it should be possible to set the locale inside the path. For example _http://www.example.com/de_, _http://www.example.com/posts/123/comments/de_
+* Rewrite all hyperlinks in the returned result of the rails app, so that _http://www.example.com/posts/123/comments?locale=de_ gets converted to _http://www.example.com/posts/123/comments/de_
+ 

@@ -8,7 +8,7 @@ module Rack
     
     def initialize(app, *args)
       @app = app
-      opts = args.extract_options!
+      opts = extract_options(args)
       @available_locales = opts[:available_locales] || [:en]
       @default_locale    = opts[:default_locale] || :en
     end
@@ -19,9 +19,9 @@ module Rack
       session = request.session
       
       locale = symbolize_locale params["locale"]
-      session["locale"] = (available_locales.include?(locale) ? locale : default_locale) if locale.present?
+      session["locale"] = (available_locales.include?(locale) ? locale : default_locale) if is_present?(locale)
       
-      unless session["locale"].present? 
+      unless is_present?(session["locale"])
         http_accept_language = first_http_accept_language(env)
         session["locale"] = (available_locales.include?(http_accept_language) ? http_accept_language : default_locale) 
       end
@@ -36,7 +36,7 @@ module Rack
     
     
     def symbolize_locale(locale)
-      locale.present? ? locale.to_s.to_sym : locale
+      is_present?(locale) ?  locale.to_s.to_sym : locale
     end
     
     def first_http_accept_language(env)
@@ -48,6 +48,18 @@ module Rack
         }.first
         symbolize_locale(lang.first.split("-").first)
       end
+    end
+    
+    def extract_options args
+      if args.is_a?(Array)
+        args.last.is_a?(Hash) ? args.pop : {}
+      else
+        {}
+      end
+    end
+    
+    def is_present? value
+      !(value.nil? || value.empty?)
     end
     
   end

@@ -39,11 +39,11 @@ h2. Dependency
 The following rubygem's should be present
 * i18n
 * rack
-* rack-builder
 * rack-test
 * rspec
 * sinatra
 
+<pre>gem install i18n rack rack-test rspec sinatra</pre>
 
 
 h2. Installation

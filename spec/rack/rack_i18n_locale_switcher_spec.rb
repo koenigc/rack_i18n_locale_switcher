@@ -53,4 +53,20 @@ describe Rack::I18nLocaleSwitcher do
     last_response.body.should =~ /I18n.locale: 'fr'/
   end
   
+  it "should store the locale in the session : de" do
+    get '/locale', :locale => :de
+    last_response.body.should =~ /I18n.locale: 'de'/
+    
+    get '/home'
+    last_response.should be_ok
+    last_response.body.should == 'Home'
+    
+    get '/imprint'
+    last_response.should be_ok
+    last_response.body.should == 'Imprint'
+    
+    get '/locale'
+    last_response.body.should =~ /I18n.locale: 'de'/
+  end
+  
 end

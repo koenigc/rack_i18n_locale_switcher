@@ -16,9 +16,10 @@ Spec::Runner.configure do |conf|
   
   def app
     Rack::Builder.app do
+      use Rack::Session::Cookie
       use Rack::I18nLocaleSwitcher, :available_locales => [:de, :en, :fr], :default_locale => :fr
       run Rack::Test::FakeApp.new
     end
   end
-
+  
 end

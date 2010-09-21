@@ -43,7 +43,7 @@ The following rubygem's should be present
 * rspec
 * sinatra
 
-<pre>gem install i18n rack rack-test rspec sinatra</pre>
+<pre>bundle install</pre>
 
 
 h2. Installation

@@ -18,7 +18,7 @@ module Rack
       session = request.session
       
       locale = extract_locale_from_path_or_params(request)
-      session["locale"] = (available_locales.include?(locale) ? locale : default_locale) if is_present?(locale)
+      session["locale"] = locale if is_present?(locale)
       
       unless is_present?(session["locale"])
         http_accept_language = first_http_accept_language(env)
@@ -60,7 +60,8 @@ module Rack
     end
     
     def extract_locale_from_path_or_params request
-       extract_locale_from_path(request) || extract_locale_from_params(request)
+      locale = extract_locale_from_path(request) || extract_locale_from_params(request)
+      available_locales.include?(locale) ? locale : nil
     end
     
     def extract_locale_from_path request

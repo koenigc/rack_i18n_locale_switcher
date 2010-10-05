@@ -15,10 +15,9 @@ module Rack
     
     def call(env)
       request = Rack::Request.new env
-      params  = request.params
       session = request.session
       
-      locale = symbolize_locale params["locale"]
+      locale = extract_locale_from_path_or_params(request)
       session["locale"] = (available_locales.include?(locale) ? locale : default_locale) if is_present?(locale)
       
       unless is_present?(session["locale"])
@@ -32,7 +31,9 @@ module Rack
     end
     
     
+    
     private
+    
     
     
     def symbolize_locale(locale)
@@ -56,6 +57,25 @@ module Rack
       else
         {}
       end
+    end
+    
+    def extract_locale_from_path_or_params request
+       extract_locale_from_path(request) || extract_locale_from_params(request)
+    end
+    
+    def extract_locale_from_path request
+      path_array = request.path_info.split("/")
+      if path_array[1] =~ /^\w{2}$/
+        locale = symbolize_locale path_array.delete_at(1)
+        request.path_info = path_array.join("/")
+      else
+        locale = nil
+      end
+      locale
+    end
+    
+    def extract_locale_from_params request
+      symbolize_locale request.params.delete("locale")
     end
     
     def is_present? value

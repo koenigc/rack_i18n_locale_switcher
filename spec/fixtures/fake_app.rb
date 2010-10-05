@@ -19,12 +19,12 @@ module Rack
       get '/home' do
         "Home"
       end
-
+      
       get '/imprint' do
         "Imprint"
       end
       
     end
-
+  
   end
 end

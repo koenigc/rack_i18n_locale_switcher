@@ -69,4 +69,28 @@ describe Rack::I18nLocaleSwitcher do
     last_response.body.should =~ /I18n.locale: 'de'/
   end
   
+  
+  describe "locale as part of the url" do
+    it "should set locale with format http://host.domain.tld/locale/path/to/site?param=set" do
+      get '/de/locale/'
+      last_response.should be_ok
+      last_response.body.should =~ /I18n.locale: 'de'/
+    end
+    it "should reject the locale from the path" do
+      get '/en/home/'
+      last_response.should be_ok
+      last_response.body.should == 'Home'
+    end
+    it "locale in path should have priority before locale in params" do
+      get '/en/locale/', :locale => :de
+      last_response.should be_ok
+      last_response.body.should =~ /I18n.locale: 'en'/
+    end
+    it "wrong locale in path should cause fallback to default locale" do
+      get '/pt/locale/', :locale => :de
+      last_response.should be_ok
+      last_response.body.should =~ /I18n.locale: 'fr'/
+    end
+  end
+  
 end

@@ -18,12 +18,9 @@ module Rack
       session = request.session
       
       locale = extract_locale_from_path_or_params(request)
-      session["locale"] = locale if is_present?(locale)
       
-      unless is_present?(session["locale"])
-        http_accept_language = first_http_accept_language(env)
-        session["locale"] = (available_locales.include?(http_accept_language) ? http_accept_language : default_locale) 
-      end
+      session["locale"] = locale if is_present?(locale)
+      session["locale"] = first_http_accept_language(env) unless is_present?(session["locale"])
       
       I18n.locale = session["locale"]
       
@@ -70,8 +67,11 @@ module Rack
           l += ';q=1.0' unless l =~ /;q=\d+\.\d+$/
           l.split(';q=')
         }.first
-        symbolize_locale(lang.first.split("-").first)
+        locale = symbolize_locale(lang.first.split("-").first)
+      else
+        locale = nil
       end
+      available_locales.include?(locale) ? locale : default_locale
     end
     
     def is_present?(value)

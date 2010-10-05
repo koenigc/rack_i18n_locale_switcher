@@ -36,35 +36,11 @@ module Rack
     
     
     
-    def symbolize_locale(locale)
-      is_present?(locale) ?  locale.to_s.to_sym : locale
+    def extract_locale_from_params(request)
+      symbolize_locale request.params.delete("locale")
     end
     
-    def first_http_accept_language(env)
-      # http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4
-      if lang = env["HTTP_ACCEPT_LANGUAGE"]
-        lang = lang.split(",").map { |l|
-          l += ';q=1.0' unless l =~ /;q=\d+\.\d+$/
-          l.split(';q=')
-        }.first
-        symbolize_locale(lang.first.split("-").first)
-      end
-    end
-    
-    def extract_options args
-      if args.is_a?(Array)
-        args.last.is_a?(Hash) ? args.pop : {}
-      else
-        {}
-      end
-    end
-    
-    def extract_locale_from_path_or_params request
-      locale = extract_locale_from_path(request) || extract_locale_from_params(request)
-      available_locales.include?(locale) ? locale : nil
-    end
-    
-    def extract_locale_from_path request
+    def extract_locale_from_path(request)
       path_array = request.path_info.split("/")
       if path_array[1] =~ /^\w{2}$/
         locale = symbolize_locale path_array.delete_at(1)
@@ -75,13 +51,37 @@ module Rack
       locale
     end
     
-    def extract_locale_from_params request
-      symbolize_locale request.params.delete("locale")
+    def extract_locale_from_path_or_params(request)
+      locale = extract_locale_from_path(request) || extract_locale_from_params(request)
+      available_locales.include?(locale) ? locale : nil
     end
     
-    def is_present? value
+    def extract_options(args)
+      if args.is_a?(Array)
+        args.last.is_a?(Hash) ? args.pop : {}
+      else
+        {}
+      end
+    end
+    
+    def first_http_accept_language(env)
+      if lang = env["HTTP_ACCEPT_LANGUAGE"]
+        lang = lang.split(",").map { |l|
+          l += ';q=1.0' unless l =~ /;q=\d+\.\d+$/
+          l.split(';q=')
+        }.first
+        symbolize_locale(lang.first.split("-").first)
+      end
+    end
+    
+    def is_present?(value)
       !(value.nil? || value.to_s.empty?)
     end
     
+    def symbolize_locale(locale)
+      is_present?(locale) ?  locale.to_s.to_sym : locale
+    end
+  
   end
+
 end

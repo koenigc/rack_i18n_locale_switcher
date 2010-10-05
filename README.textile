@@ -11,7 +11,8 @@ h2. History
 h3. Basic functionality
 
 * Create a new "Rack::Request":http://rack.rubyforge.org/doc/classes/Rack/Request.html object an extract the params and the session.
-* store the @params["locale"]@ value in @session["locale"]@ if present
+* Instead of using a query string like @?locale=de@ it is possible to set the locale inside the path. For example _http://www.example.com/de_, _http://www.example.com/posts/123/comments/de_ Using this method should be prefered.
+* store the @locale@ value in @session["locale"]@ if present
 * Set the "I18n.locale":http://guides.rubyonrails.org/i18n.html to whatever is stored inside @session["locale"]@ or, if not present, a defined default locale
 
 
@@ -61,7 +62,7 @@ Define the available locales inside the array. The locales should be set as symb
 h2. Test
 
 To run the test's just execute 
-<pre>spec ./spec</pre>
+<pre>rake spec</pre>
 
 I used a FakeApp to simulate this App as a middleware.This is done with the help of "RackBuilder":http://rack.rubyforge.org/doc/classes/Rack/Builder.html
 
@@ -89,7 +90,6 @@ h2. Future
 
 The next features that could be implement:
 
-* Instead of using a query string like @?locale=de@ it should be possible to set the locale inside the path. For example _http://www.example.com/de_, _http://www.example.com/posts/123/comments/de_
 * Rewrite all hyperlinks in the returned result of the rails app, so that _http://www.example.com/posts/123/comments?locale=de_ gets converted to _http://www.example.com/posts/123/comments/de_
 * create a gem
 * predict the default locale based on the users ip address

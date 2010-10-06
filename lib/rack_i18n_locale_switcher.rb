@@ -44,9 +44,7 @@ module Rack
     end
     
     def extract_locale_from_params(request)
-      locale = request.params.delete("locale")
-      locale = nil unless locale =~ %r{^#{available_locales.join('|')}$}
-      symbolize_locale locale
+      request.params["locale"] =~ %r{^#{available_locales.join('|')}$} ? request.params["locale"] : nil
     end
     
     def extract_locale_from_path(request)
@@ -55,15 +53,11 @@ module Rack
     end
     
     def extract_locale_from_path_or_params(request)
-      locale = extract_locale_from_path(request) || extract_locale_from_params(request)
+      symbolize_locale( extract_locale_from_path(request) || extract_locale_from_params(request) )
     end
     
     def extract_options(args)
-      if args.is_a?(Array)
-        args.last.is_a?(Hash) ? args.pop : {}
-      else
-        {}
-      end
+      args.is_a?(Array) && args.last.is_a?(Hash) ? args.pop : {}
     end
     
     def first_http_accept_language(env)

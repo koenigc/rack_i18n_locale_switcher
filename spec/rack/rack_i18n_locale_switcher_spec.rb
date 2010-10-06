@@ -86,8 +86,13 @@ describe Rack::I18nLocaleSwitcher do
       last_response.should be_ok
       last_response.body.should =~ /I18n.locale: 'en'/
     end
-    it "wrong locale in path should cause fallback to default locale" do
+    it "wrong locale in path should cause fallback to params locale" do
       get '/pt/locale/', :locale => :de
+      last_response.should be_ok
+      last_response.body.should =~ /I18n.locale: 'de'/
+    end
+    it "wrong locale in path and params should cause fallback to default locale" do
+      get '/pt/locale/', :locale => :us
       last_response.should be_ok
       last_response.body.should =~ /I18n.locale: 'fr'/
     end

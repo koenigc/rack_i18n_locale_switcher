@@ -34,13 +34,18 @@ module Rack
     
     
     def extract_locale_from_params(request)
-      symbolize_locale request.params.delete("locale")
+      locale = request.params.delete("locale")
+      locale = nil unless locale =~ %r{^#{available_locales.join('|')}$}
+      symbolize_locale locale
     end
     
     def extract_locale_from_path(request)
       path_array = request.path_info.split("/")
-      if path_array[1] =~ /^\w{2}$/
+      if path_array[1] =~ %r{^#{available_locales.join('|')}$}
         locale = symbolize_locale path_array.delete_at(1)
+        request.path_info = path_array.join("/")
+      elsif path_array[1] =~ %r{^[a-zA-Z]{2}$}
+        path_array.delete_at(1)
         request.path_info = path_array.join("/")
       else
         locale = nil
@@ -50,7 +55,6 @@ module Rack
     
     def extract_locale_from_path_or_params(request)
       locale = extract_locale_from_path(request) || extract_locale_from_params(request)
-      available_locales.include?(locale) ? locale : nil
     end
     
     def extract_options(args)
@@ -79,7 +83,7 @@ module Rack
     end
     
     def symbolize_locale(locale)
-      is_present?(locale) ?  locale.to_s.to_sym : locale
+      is_present?(locale) ?  locale.to_s.downcase.to_sym : locale
     end
   
   end

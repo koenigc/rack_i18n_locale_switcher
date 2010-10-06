@@ -1,0 +1,55 @@
+--- 
+dependencies: 
+  mongrel: 
+    group: 
+    - :development
+    version: ">= 0"
+  rails: 
+    group: 
+    - :default
+    version: = 2.3.8
+  haml: 
+    group: 
+    - :default
+    version: ">= 0"
+  sqlite3-ruby: 
+    group: 
+    - :default
+    version: = 1.3.0
+    require: 
+    - sqlite3
+specs: 
+- rake: 
+    version: 0.8.7
+- activesupport: 
+    version: 2.3.8
+- rack: 
+    version: 1.1.0
+- actionpack: 
+    version: 2.3.8
+- actionmailer: 
+    version: 2.3.8
+- activerecord: 
+    version: 2.3.8
+- activeresource: 
+    version: 2.3.8
+- cgi_multipart_eof_fix: 
+    version: 2.5.0
+- daemons: 
+    version: 1.1.0
+- fastthread: 
+    version: 1.0.7
+- gem_plugin: 
+    version: 0.2.3
+- haml: 
+    version: 3.0.21
+- mongrel: 
+    version: 1.1.5
+- rails: 
+    version: 2.3.8
+- sqlite3-ruby: 
+    version: 1.3.0
+hash: 1a4b11522ffa6e9464d3ced843f9db7fc391aebc
+sources: 
+- Rubygems: 
+    uri: http://gemcutter.org

@@ -24,6 +24,10 @@ module Rack
         "Imprint"
       end
       
+      get '/' do
+        "Root"
+      end
+      
     end
   
   end

@@ -35,7 +35,7 @@ module Rack
     
     def cleanup_env env
       %w{REQUEST_URI REQUEST_PATH PATH_INFO}.each do |key|
-        if is_present?(env[key]) && tmp = env[key].split("/")
+        if is_present?(env[key]) && env[key].length > 1 && tmp = env[key].split("/")
           tmp.delete_at(1) if tmp[1] =~ %r{^[a-zA-Z]{2}$}
           env[key] = tmp.join("/")
         end

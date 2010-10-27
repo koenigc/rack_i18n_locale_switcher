@@ -98,4 +98,11 @@ describe Rack::I18nLocaleSwitcher do
     end
   end
   
+  
+  it "should not raise error on root url '/'" do
+    get '/'
+    last_response.should be_ok
+    last_response.body.should =~ /Root/
+  end
+  
 end

@@ -61,6 +61,42 @@ config.middleware.use Rack::I18nLocaleSwitcher, :available_locales => [:your, :a
 
 Define the available locales inside the array. The locales should be set as symbols. Also define your preferred default locale.
 
+h3. Changing language proposal
+
+Since the language handling is processed in a Rack- Application the routing in Rails has no knowledge of the locale part at the path. So you can't use the url generation
+to generate href's for changing the language.
+
+I created a little helper example to generate these links. The idea is to use the current controller and action and put the new locale in front of it:
+
+<pre>"/#{locale}" + url_for( :controller => controller_name(), :action => action_name() )</pre>
+
+For two of the RESTful actions (create and update) an exception handler was implemented. If you want to change the language in one of this actions,
+the new or edit action get called instead. You can extend this helper if you have other actions which should not be called with GET.
+
+
+<pre>def link_to_locale(*args)
+  options = args.extract_options!
+  locale = args.first
+  name = args.second
+  case action_name()
+  when "create" ; action = "new"
+  when "update" ; action = "edit"
+  else  action = action_name()
+  end
+  url = "/#{locale}" + url_for(:controller => controller_name(), :action => action)
+  
+  link_to name, url, options
+end</pre>
+
+This helper is integrated in the example application. Inside a view you can call it like this:
+
+If you have an enhancement or a better solution don't hesitate to contact me.
+
+
+<pre>- [:en, :fr, :de].each do |locale| 
+  = link_to_locale locale, I18n.t("language_#{locale}")</pre>
+
+
 
 
 h2. Test
@@ -83,10 +119,11 @@ rackup</pre>
 
 The FakeApp respond to the following requests:
 
-* get '/test'
-* get '/locale'
+* get '/'
 * get '/home'
 * get '/imprint'
+* get '/locale'
+* get '/test'
 
 
 

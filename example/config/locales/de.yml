@@ -1,7 +1,7 @@
 de:
-  link_to_english: "englisch"
-  link_to_french: "französisch"
-  link_to_german: "deutsch"
+  language_de: "deutsch"
+  language_en: "englisch"
+  language_fr: "französisch"
   link_to_home: "Start"
   link_to_imprint: "Impressum"
   locales: "Sprachen"

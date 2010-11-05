@@ -1,6 +1,5 @@
-%h3= I18n.t("locales")
+%h3= I18n.t(:locales)
 
 %ul#locale_links
-  %li= link_to I18n.t("link_to_english"), "?locale=en"
-  %li= link_to I18n.t("link_to_french"), "?locale=fr"
-  %li= link_to I18n.t("link_to_german"), "?locale=de"
+  - [:en, :fr, :de].each do |locale| 
+    %li= link_to_locale locale, I18n.t("language_#{locale}")

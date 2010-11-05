@@ -90,11 +90,11 @@ end</pre>
 
 This helper is integrated in the example application. Inside a view you can call it like this:
 
-If you have an enhancement or a better solution don't hesitate to contact me.
-
-
 <pre>- [:en, :fr, :de].each do |locale| 
   = link_to_locale locale, I18n.t("language_#{locale}")</pre>
+
+If you have an enhancement or a better solution don't hesitate to contact me.
+
 
 
 

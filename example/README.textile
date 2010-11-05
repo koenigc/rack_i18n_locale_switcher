@@ -11,4 +11,3 @@ h2. Installation
 h2. Testing 
 
 unfortunately no tests exists at the moment.
-For the rails app i should write some cucumber features and for the middleware i should learn how to test rack apps.

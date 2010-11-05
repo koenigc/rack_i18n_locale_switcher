@@ -63,8 +63,8 @@ Define the available locales inside the array. The locales should be set as symb
 
 h3. Changing language proposal
 
-Since the language handling is processed in a Rack- Application the routing in Rails has no knowledge of the locale part at the path. So you can't use the url generation
-to generate href's for changing the language.
+Since the language handling is processed in a Rack- Application the routing in Rails has no knowledge about the locale part inside the path. 
+So you can't use the url generation to generate href's for changing the language.
 
 I created a little helper example to generate these links. The idea is to use the current controller and action and put the new locale in front of it:
 

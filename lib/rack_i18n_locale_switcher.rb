@@ -36,7 +36,7 @@ module Rack
     def cleanup_env env
       %w{REQUEST_URI REQUEST_PATH PATH_INFO}.each do |key|
         if is_present?(env[key]) && env[key].length > 1 && tmp = env[key].split("/")
-          tmp.delete_at(1) if tmp[1] =~ %r{^[a-zA-Z]{2}$}
+          tmp.delete_at(1) if tmp[1] =~ %r{^([a-zA-Z]{2})$}
           env[key] = tmp.join("/")
         end
       end
@@ -44,12 +44,12 @@ module Rack
     end
     
     def extract_locale_from_params(request)
-      request.params["locale"] =~ %r{^#{available_locales.join('|')}$} ? request.params["locale"] : nil
+      request.params["locale"] =~ %r{^(#{available_locales.join('|')})$} ? request.params["locale"] : nil
     end
     
     def extract_locale_from_path(request)
       path_array = request.path_info.split("/")
-      path_array[1] =~ %r{^#{available_locales.join('|')}$} ? path_array[1] : nil
+      path_array[1] =~ %r{^(#{available_locales.join('|')})$} ? path_array[1] : nil
     end
     
     def extract_locale_from_path_or_params(request)
